@@ -1,0 +1,188 @@
+.about {
+  padding: 110px 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.about__box {
+  max-width: 1140px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.about__header {
+  border-bottom: solid 1px #DADADA;
+}
+
+.about__heading {
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 27px;
+  margin-bottom: 23px;
+}
+
+.about__text-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 70px;
+}
+
+.about__text {
+  width: 50%;
+}
+
+.about__text:first-child {
+  padding-right: 30px;
+}
+
+.about__title {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  margin: 0 0 26px 0;
+  letter-spacing: -0.04em;
+}
+
+.about__paragraph {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+
+.about__progress {
+  margin-top: 110px;
+  display: flex;
+  flex-direction: row;
+}
+
+.about__left-block {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 20%;
+}
+
+.about__green-block {
+  background-color: #3DDC84;
+  text-align: center;
+  color: black;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.about__right-block {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 80%;
+}
+
+.about__grey-block {
+  background-color: #303030;
+  text-align: center;
+  color: white;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.about__txt {
+  margin-top: 14px;
+  color: #8B8B8B;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+@media screen and (max-width: 768px) {
+  .about {
+    padding-top: 90px;
+    padding-bottom: 90px;
+  }
+
+  .about__title {
+    margin: 0 0 22px 0;
+  }
+  
+  .about__paragraph {
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: normal;
+  }
+
+  .about__progress {
+    margin-top: 93px;
+  }
+
+  .about__sign {
+    margin: 9px auto;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .about {
+    padding: 70px 18px;
+  }
+
+  .about__title {
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: -0.04em;
+    margin: 0 0 28px 0;
+  }
+
+  .about__text-box {
+    margin-top: 60px;
+    flex-direction: column;
+  }
+
+  .about__text {
+    width: 100%;
+  }
+
+  .about__title {
+    font-size: 18px;
+    line-height: 22px;
+    margin: 0 0 16px 0;
+  }
+
+  .about__paragraph {
+    font-size: 11px;
+    line-height: 16px;
+    margin-bottom: 56px;
+  }
+
+  .about__progress {
+    margin-top: 4px;
+  }
+
+  .about__left-block {
+    width: 35%;
+  }
+
+  .about__green-block {
+    font-size: 11px;
+    line-height: 17px;
+  }
+
+  .about__right-block {
+    width: 65%;
+  }
+
+  .about__grey-block {
+    font-size: 11px;
+    line-height: 17px;
+  }
+
+  .about__txt {
+    margin-top: 10px;
+    font-size: 11px;
+    line-height: 13px;
+  }
+}
