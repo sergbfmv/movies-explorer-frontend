@@ -89,12 +89,14 @@
 
   .techs__blocks {
     margin-top: 83px;
+    flex-wrap: wrap;
  }
   .techs__block {
     width: 84px;
     height: 57px;
     font-size: 12px;
     line-height: 15px;
+    margin-top: 10px;
   }
 }
 

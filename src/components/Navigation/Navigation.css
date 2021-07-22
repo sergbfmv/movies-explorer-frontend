@@ -243,7 +243,7 @@
   }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 430px) {
   .menu__box {
     width: 320px;
   }

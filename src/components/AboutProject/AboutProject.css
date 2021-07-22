@@ -143,7 +143,12 @@
   }
 
   .about__text {
-    width: 100%;
+    width: 94%;
+    padding: 0;
+  }
+
+  .about__text:first-child {
+    padding: 0;
   }
 
   .about__title {
@@ -156,6 +161,7 @@
     font-size: 11px;
     line-height: 16px;
     margin-bottom: 56px;
+    width: 284px;
   }
 
   .about__progress {

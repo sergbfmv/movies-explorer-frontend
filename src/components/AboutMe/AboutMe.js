@@ -9,6 +9,7 @@ function AboutMe() {
           <h2 className='about-me__heading'>Студент</h2>
         </div>
         <div className='about-me__student'>
+
           <div className='about-me__info'>
             <h2 className='about-me__title'>Сергей</h2>
             <p className='about-me__subtitle'>Фронтенд-разработчик, 30 лет</p>
@@ -22,6 +23,7 @@ function AboutMe() {
               <a href='https://github.com/sergbfmv' target='_blank' className='about-me__link' rel='noreferrer'>Github</a>
             </div>
           </div>
+          
           <div className='about-me__photo'>
             <img src={photo} alt='Фотография автора' className='about-me__picture'></img>
           </div>

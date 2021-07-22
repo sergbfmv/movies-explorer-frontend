@@ -13,17 +13,17 @@ function Register(props) {
         <form className='register__form'>
           <label className="register__form-field">
             <p className='register__form-text'>Имя</p>
-            <input id="name-input" type="text" name="name" placeholder="Имя" className="register__placeholder register__placeholder_type_name"/>
+            <input id="name-input" type="text" name="name" placeholder="Имя" className="register__placeholder register__placeholder_type_name" required/>
             <span className="name-input-error popup__placeholder-error"></span>
           </label>
           <label className="register__form-field">
             <p className='register__form-text'>E-mail</p>
-            <input id="email-input" type="email" name="email" placeholder="Почта" className="register__placeholder register__placeholder_type_email"/>
+            <input id="email-input" type="email" name="email" placeholder="Почта" className="register__placeholder register__placeholder_type_email" required/>
             <span className="name-input-error popup__placeholder-error"></span>
           </label>
           <label className="register__form-field">
             <p className='register__form-text'>Пароль</p>
-            <input id="password-input" type="password" name="password" placeholder="Пароль" className="register__placeholder register__placeholder_type_password"/>
+            <input id="password-input" type="password" name="password" placeholder="Пароль" className="register__placeholder register__placeholder_type_password" required/>
             <span className="name-input-error popup__placeholder-error"></span>
           </label>
           <button type="submit" name="register" className="register__button">Зарегистрироваться</button>

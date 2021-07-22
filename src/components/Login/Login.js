@@ -13,12 +13,12 @@ function Login(props) {
         <form className='login__form'>
           <label className="login__form-field">
             <p className='login__form-text'>E-mail</p>
-            <input id="email-input" type="email" name="email" placeholder="Почта" className="login__placeholder login__placeholder_type_email"/>
+            <input id="email-input" type="email" name="email" placeholder="Почта" className="login__placeholder login__placeholder_type_email" required/>
             <span className="name-input-error login__placeholder-error"></span>
           </label>
           <label className="login__form-field">
             <p className='login__form-text'>Пароль</p>
-            <input id="password-input" type="password" name="password" placeholder="Пароль" className="login__placeholder login__placeholder_type_password"/>
+            <input id="password-input" type="password" name="password" placeholder="Пароль" className="login__placeholder login__placeholder_type_password" required/>
             <span className="name-input-error login__placeholder-error"></span>
           </label>
           <button type="submit" name="login" className="login__button">Зарегистрироваться</button>
