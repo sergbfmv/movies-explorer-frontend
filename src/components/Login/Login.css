@@ -39,6 +39,7 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
+  position: relative;
 }
 
 .login__form-text {
@@ -120,7 +121,7 @@
   color: red;
   opacity: 0;
   position: absolute;
-  top: 34px;
+  bottom: -24px;
   left: 0;
   transition: 0.3s;
 }
