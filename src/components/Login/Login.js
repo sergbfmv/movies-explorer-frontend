@@ -48,7 +48,7 @@ render() {
             <input onChange={this.props.handleChange} id="password-input" type="password" name="password" placeholder="Пароль" className="login__placeholder login__placeholder_type_password" required/>
             <span className={this.props.errors.password ? "name-input-error login__placeholder-error login__placeholder-error_active" : "name-input-error login__placeholder-error"}>{this.props.errors.password}</span>
           </label>
-          <button type="submit" name="login" className="login__button">Войти</button>
+          <button type="submit" name="login" className={this.props.errors.email || this.props.errors.password ? "login__button login__button_inactive" : "login__button"}>Войти</button>
           <p className="login__text">Ещё не зарегистрированы? <Link to='/signup' className="login__link">Регистрация</Link></p>
         </form>
       </div>

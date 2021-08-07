@@ -52,7 +52,7 @@ class Register extends React.Component {
               <input onChange={this.props.handleChange} id="password-input" type="password" name="password" placeholder="Пароль" className="register__placeholder register__placeholder_type_password" required/>
               <span className={this.props.errors.password ? "password-input-error register__placeholder-error register__placeholder-error_active" : "password-input-error register__placeholder-error"}>{this.props.errors.password}</span>
             </label>
-            <button type="submit" name="register" className="register__button">Зарегистрироваться</button>
+            <button type="submit" name="register" className={this.props.errors.name || this.props.errors.email || this.props.errors.password ? "register__button register__button_inactive" : "register__button"}>Зарегистрироваться</button>
             <p className="register__text">Уже зарегистрированы? <Link to='/signin' className="register__link">Войти</Link></p>
           </form>
         </div>
