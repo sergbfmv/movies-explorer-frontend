@@ -17,6 +17,7 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import regOk from '../../images/regOk.svg'
 import regNotOk from '../../images/regNotOk.svg'
+import Constants from '../../utils/Constants'
 
 function App() {
   const [values, setValues] = React.useState({});
@@ -32,7 +33,7 @@ function App() {
   const [serverError, setServerError] = React.useState('');
   const [checked, setChecked] = React.useState(false);
   const history = useHistory()
-  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [loggedIn, setLoggedIn] = React.useState(true);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false)
   const [messageInfoTooltip, setMessageInfoTooltip] = React.useState('')
   const [imageInfoTooltip, setImageInfoTooltip] = React.useState('')
@@ -116,7 +117,7 @@ function App() {
 
   const durationFilter = () => {
     if (!checked) {
-      const shorts = data.filter((item) => item.duration <= 40);
+      const shorts = data.filter((item) => item.duration <= Constants.Duration);
       setChecked(true);
       setData(shorts);
     } else {
@@ -128,7 +129,7 @@ function App() {
 
   const savedDurationFilter = () => {
     if (!checked) {
-      const shorts = savedMovies.filter((item) => item.duration <= 40);
+      const shorts = savedMovies.filter((item) => item.duration <= Constants.Duration);
       setChecked(true);
       setSavedMovies(shorts);
     } else {
@@ -143,7 +144,6 @@ function App() {
       i.movieId === movie.id ? true : false
     );
     if (!like) {
-      console.log(like)
       mainApi.createMovie({
           country: movie.country,
           director: movie.director,
@@ -210,6 +210,9 @@ function App() {
         .then((res) => {
           getMovies();
         })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 
@@ -251,18 +254,15 @@ function App() {
 
   const defineListLength = () => {
     const screenWith = document.documentElement.clientWidth;
-    if (screenWith >= 1280) {
-      setMoviesNumber(3);
-      setListLength(12);
-    } else if (screenWith >= 1141 && screenWith <= 1280) {
-      setMoviesNumber(3);
-      setListLength(12);
+    if (screenWith > 1140) {
+      setMoviesNumber(Constants.MoviesNumberWidth);
+      setListLength(Constants.ListLengthWidth);
     } else if (screenWith >= 768 && screenWith <= 1140) {
-      setMoviesNumber(2);
-      setListLength(8);
+      setMoviesNumber(Constants.MoviesNumberMedium);
+      setListLength(Constants.ListLengthMedium);
     } else if (screenWith < 768) {
-      setMoviesNumber(1);
-      setListLength(5);
+      setMoviesNumber(Constants.MoviesNumberSmall);
+      setListLength(Constants.ListLengthSmall);
     }
   };
 
@@ -271,39 +271,46 @@ function App() {
   };
 
   function handleLogin() {
-    setLoggedIn({
-      loggedIn: true
-    })
+    setLoggedIn(true)
   }
 
   function handleTokenCheck () {
-      if (localStorage.getItem('jwt')) {
-        const jwt = localStorage.getItem('jwt');
-        console.log(jwt)
-        if (jwt) {
-          mainApi.getUser()
-            .then((info) => {
-              const userData = {
-                name: info.data.name,
-                email: info.data.email
-              }
-              setUserData(userData)
-              setLoggedIn(true)
-            })
-
-            history.push('/movies');
-      }}
+    if (!localStorage.getItem('jwt')) {
+      setLoggedIn(false)
+    } else {
+      const jwt = localStorage.getItem('jwt');
+      if (jwt) {
+        mainApi.getUser()
+          .then((info) => {
+            const userData = {
+              name: info.data.name,
+              email: info.data.email
+            }
+            setUserData(userData)
+            setLoggedIn(true)
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+    }}
   }
 
   function handleOnLogin () {
+    setLoader(true)
     mainApi.login(values.email, values.password)
       .then((data) => {
         if (data.token) {
           handleLogin();
           history.push('/movies');
-      }
-    })
-      .catch(err => console.log(err));
+        }
+      })
+      .catch((err) => {
+        setLoggedIn(false)
+        console.log(err)
+      })
+      .finally(() => {
+        setLoader(false)
+      })
 }
 
   const logout = () => {
@@ -323,12 +330,10 @@ function App() {
     setIsInfoTooltipOpen(false)
     setMessageInfoTooltip('')
     setImageInfoTooltip('')
-    if (check === regOk) {
-      history.push('/signin')
-    }
   }
 
   function handleRegister () {
+    setLoader(true)
     mainApi.register(values.name, values.email, values.password)
       .then((res) => {
         if(!res.error && !res.message) {
@@ -339,33 +344,46 @@ function App() {
                 history.push('/movies');
               }
     })
-      .catch(err => console.log(err));
+            .catch((err) => {
+              setLoggedIn(false)
+              console.log(err)
+            });
         } else {
           handleInfoTooltipOpen('Что-то пошло не так! Попробуйте ещё раз.', regNotOk)
         }
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log(err))
+    .finally(() => {
+      setLoader(false)
+    })
   }
 
   const handleChangeUser = (e) => {
     e.preventDefault();
     if (isValid === true) {
-      mainApi.updateUser(values.name, values.email).then((res) => {
-        if (!res.message) {
-          setValues({ name: res.name, email: res.email });
-          const newUserData = {
-            name: res.data.name,
-            email: res.data.email
+      mainApi.updateUser(values.name, values.email)
+        .then((res) => {
+          if (!res.message) {
+            setValues({ name: res.name, email: res.email });
+            const newUserData = {
+              name: res.data.name,
+              email: res.data.email
+            }
+            setUserData(newUserData)
+            handleInfoTooltipOpen('Данные обновлены!', regOk)
+          } else {
+            handleError(res.message);
           }
-          setUserData(newUserData)
-        } else {
-          handleError(res.message);
-        }
-      });
+        })
+        .catch(err => console.log(err));
     } else {
       setIsValid(false);
     }
   };
+
+  function backButton() {
+    history.goBack()
+  }
 
   React.useEffect(() => {
     handleTokenCheck()
@@ -432,6 +450,8 @@ function App() {
               isValid={isValid}
               name={userData.name}
               email={userData.email}
+              loader={loader}
+              values={values}
             />
             <ProtectedRoute
               loggedIn={loggedIn} 
@@ -472,6 +492,8 @@ function App() {
                 handleLogin = {handleOnLogin}
                 errors={errors}
                 handleChange={handleChange}
+                loader={loader}
+                isValid={isValid}
               />
             </Route>
             <Route path="/signup">
@@ -479,10 +501,12 @@ function App() {
                 onRegister={handleRegister}
                 errors={errors}
                 handleChange={handleChange}
+                loader={loader}
+                isValid={isValid}
               />
             </Route>
             <Route path='*'>
-              <PageNotFound />
+              <PageNotFound backButton={backButton} />
             </Route>
           </Switch>
           <InfoTooltip 

@@ -1,7 +1,7 @@
 import './Profile.css'
 import Header from "../Header/Header";
 
-function Profile({name, email, onLogout, onChange, onSubmit, loggedIn, errors}) {
+function Profile({name, email, onLogout, onChange, onSubmit, loggedIn, errors, isValid, values}) {
 
   return(
     <>
@@ -12,15 +12,16 @@ function Profile({name, email, onLogout, onChange, onSubmit, loggedIn, errors}) 
         <form className='profile__form' onSubmit={onSubmit}>
           <label className="profile__form-field">
             <p className='profile__form-text'>Имя</p>
-            <input onChange={onChange} id="name-input" type="text" name="name" placeholder={name} className="profile__placeholder profile__placeholder_type_name"/>
+            <input onChange={onChange} id="name-input" type="text" name="name" placeholder={name} className="profile__placeholder profile__placeholder_type_name" required/>
             <span className={errors.name ? "name-input-error profile__placeholder-error profile__placeholder-error_active" : "name-input-error profile__placeholder-error"}>{errors.name}</span>
           </label>
           <label className="profile__form-field">
             <p className='profile__form-text'>Почта</p>
-            <input onChange={onChange} id="email-input" type="email" name="email" placeholder={email} className="profile__placeholder profile__placeholder_type_name"/>
+            <input onChange={onChange} id="email-input" type="email" name="email" placeholder={email} className="profile__placeholder profile__placeholder_type_name" required/>
             <span className={errors.email ? "name-input-error profile__placeholder-error profile__placeholder-error_active" : "name-input-error profile__placeholder-error"}>{errors.email}</span>
           </label>
-          <button type='submit' className='profile__edit-button'>Редактировать</button>
+          {console.log(isValid)}
+          <button type='submit' className={isValid && (values.name !== name && values.email !== email) ? 'profile__edit-button' : 'profile__edit-button profile__edit-button_inactive'}>Редактировать</button>
         </form>
         <button onClick={onLogout} type='button' className='profile__logout-button'>Выйти из аккаунта</button>
       </div>
