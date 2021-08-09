@@ -42,9 +42,12 @@ class Api {
       .catch((err) => console.log(err));
   };
 
-  getUser = () => {
+  getUser = (jwt) => {
     return fetch(`${this._baseUrl}users/me`, {
-      headers: this._headers,
+      headers: {
+        'authorization': `Bearer ${jwt}`,
+        'Content-Type': 'application/json',
+      },
     })
       .then((response) => {
         if (response.status === 200) {
@@ -55,10 +58,13 @@ class Api {
       .catch((err) => console.log(err));
   };
 
-  updateUser = (name, email) => {
+  updateUser = (name, email, jwt) => {
     return fetch(`${this._baseUrl}users/me`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: {
+        'authorization': `Bearer ${jwt}`,
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({ name, email }),
     })
       .then((response) => {
@@ -81,10 +87,13 @@ class Api {
     nameRU,
     nameEN,
     movieId,
-  }) => {
+  }, jwt) => {
     return fetch(`${this._baseUrl}movies`, {
       method: 'POST',
-      headers: this._headers,
+      headers: {
+        'authorization': `Bearer ${jwt}`,
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         country,
         director,
@@ -110,9 +119,12 @@ class Api {
       .catch((err) => console.log(err));
   };
 
-  getMovies = () => {
+  getMovies = (jwt) => {
     return fetch(`${this._baseUrl}movies`, {
-      headers: this._headers,
+      headers: {
+        'authorization': `Bearer ${jwt}`,
+        'Content-Type': 'application/json',
+      },
     })
       .then((response) => {
         return response.json();
@@ -125,9 +137,12 @@ class Api {
       .catch((err) => console.log(err));
   };
 
-  deleteMovie = (id) => {
+  deleteMovie = (id, jwt) => {
     return fetch(`${this._baseUrl}movies/${id}`, {
-      headers: this._headers,
+      headers: {
+        'authorization': `Bearer ${jwt}`,
+        'Content-Type': 'application/json',
+      },
       method: 'DELETE',
     })
       .then((res) => {

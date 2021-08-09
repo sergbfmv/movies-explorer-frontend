@@ -1,7 +1,7 @@
 import './App.css';
 import '../../vendor/normalize.css'
 import '../../vendor/fonts/fonts.css'
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import Main from '../Main/Main'
 import Movies from '../Movies/Movies'
 import SavedMovies from '../SavedMovies/SavedMovies'
@@ -144,6 +144,7 @@ function App() {
       i.movieId === movie.id ? true : false
     );
     if (!like) {
+      const jwt = localStorage.getItem('jwt')
       mainApi.createMovie({
           country: movie.country,
           director: movie.director,
@@ -156,21 +157,22 @@ function App() {
           nameEN: movie.nameEN,
           thumbnail: `https://api.nomoreparties.co${movie.image.url}`,
           movieId: movie.id,
-        })
+        }, jwt)
         .then(() => {
-          getMovies();
+          getMovies(jwt);
         })
 
         .catch((err) => {
           console.log(err);
         });
     } else {
+      const jwt = localStorage.getItem('jwt')
       savedMovies.some((i) =>
         i.movieId === movie.id
           ? mainApi
-              .deleteMovie(i._id)
+              .deleteMovie(i._id, jwt)
               .then(() => {
-                getMovies();
+                getMovies(jwt);
               })
               .catch((err) => {
                 console.log(err);
@@ -185,6 +187,7 @@ function App() {
       i.movieId === movie.movieId ? true : false
     );
     if (!like) {
+      const jwt = localStorage.getItem('jwt')
       mainApi.createMovie({
           country: movie.country,
           director: movie.director,
@@ -197,18 +200,19 @@ function App() {
           nameEN: movie.nameEN,
           thumbnail: `https://api.nomoreparties.co${movie.image.url}`,
           movieId: movie.id,
-        })
+        }, jwt)
         .then(() => {
-          getMovies();
+          getMovies(jwt);
         })
 
         .catch((err) => {
           console.log(err);
         });
     } else {
-      mainApi.deleteMovie(movie._id)
+      const jwt = localStorage.getItem('jwt')
+      mainApi.deleteMovie(movie._id, jwt)
         .then((res) => {
-          getMovies();
+          getMovies(jwt);
         })
         .catch((err) => {
           console.log(err);
@@ -240,13 +244,18 @@ function App() {
     [setValues, setErrors, setIsValid]
   );
 
-  const getMovies = () => {
-    mainApi.getMovies()
+  const getMovies = (jwt) => {
+    mainApi.getMovies(jwt)
       .then((res) => {
+        console.log(res.data)
         const films = res.data;
         localStorage.setItem('saved', JSON.stringify(films));
         const savedMovies = JSON.parse(localStorage.getItem('saved'));
-        setSavedMovies(savedMovies);
+        if (savedMovies) {
+          setSavedMovies(savedMovies);
+        } else {
+          setSavedMovies([])
+        }
       })
 
       .catch((err) => console.log(err));
@@ -280,7 +289,7 @@ function App() {
     } else {
       const jwt = localStorage.getItem('jwt');
       if (jwt) {
-        mainApi.getUser()
+        mainApi.getUser(jwt)
           .then((info) => {
             const userData = {
               name: info.data.name,
@@ -361,7 +370,8 @@ function App() {
   const handleChangeUser = (e) => {
     e.preventDefault();
     if (isValid === true) {
-      mainApi.updateUser(values.name, values.email)
+      const jwt = localStorage.getItem('jwt')
+      mainApi.updateUser(values.name, values.email, jwt)
         .then((res) => {
           if (!res.message) {
             setValues({ name: res.name, email: res.email });
@@ -388,6 +398,10 @@ function App() {
   React.useEffect(() => {
     handleTokenCheck()
   }, []);
+
+  React.useEffect(() => {
+    handleTokenCheck();
+  }, [loggedIn])
 
   React.useEffect(() => {
     if (localStorage.getItem('data')) {
@@ -425,11 +439,16 @@ function App() {
   }, []);
 
   React.useEffect(() => {
-    const savingMovies = JSON.parse(localStorage.getItem('saved'));
-    if (savingMovies) {
-      setSavedMovies(savingMovies);
-    } else {
-      setSavedMovies([]);
+    console.log('test')
+    if (localStorage.getItem('saved')) {
+      console.log('test2')
+      const saveMov = JSON.parse(localStorage.getItem('saved'))
+      console.log(saveMov)
+      if (saveMov) {
+        setSavedMovies(saveMov)
+      } else {
+        setSavedMovies([])
+      }
     }
   }, [])
 
@@ -488,22 +507,22 @@ function App() {
               <Main loggedIn={loggedIn} path='/'/>
             </Route>
             <Route path='/signin'>
-              <Login 
+              {loggedIn ? <Redirect to='/' /> : <Login 
                 handleLogin = {handleOnLogin}
                 errors={errors}
                 handleChange={handleChange}
                 loader={loader}
                 isValid={isValid}
-              />
+              />}
             </Route>
             <Route path="/signup">
-              <Register 
+            {loggedIn ? <Redirect to='/' /> : <Register 
                 onRegister={handleRegister}
                 errors={errors}
                 handleChange={handleChange}
                 loader={loader}
                 isValid={isValid}
-              />
+              />}
             </Route>
             <Route path='*'>
               <PageNotFound backButton={backButton} />
