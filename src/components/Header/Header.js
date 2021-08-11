@@ -7,9 +7,11 @@ function Header(props) {
   return (
     <header className='header'>
       <div className='header__box'>
-        <img src={headerLogo} alt='Логотип сайта' className='logo'/>
+        <Link to="/">
+          <img src={headerLogo} alt='Логотип сайта' className='logo'/>
+        </Link>
         <div className='header__links'>
-        {props.page === '/' ? (
+        {!props.loggedIn ? (
           <>
           <Link to='/signup' className='header__sign-up'>Регистрация</Link>
           <Link to='/signin' className='header__sign-in'>Войти</Link>

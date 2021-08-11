@@ -15,6 +15,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "npm run build && scp -r ./build/* serg_vale@178.154.197.46:/home/serg_vale/movies-explorer-frontend",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

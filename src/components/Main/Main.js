@@ -7,10 +7,10 @@ import Portfolio from '../Portfolio/Portfolio'
 import Header from '../Header/Header'
 import Footer from '../Footer/Footer'
 
-function Main(props) {
+function Main({loggedIn}) {
   return (
     <>
-    <Header page={props.path} path={props.path} />
+    <Header loggedIn={loggedIn} />
     <Promo />
     <AboutProject />
     <Techs />

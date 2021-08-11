@@ -27,7 +27,6 @@
   flex-direction: column;
   align-items: center;
   padding-top: 120px;
-  padding-bottom: 220px;
 }
 
 .profile__form-field {
@@ -35,6 +34,7 @@
   display: flex;
   flex-direction: row;
   margin-bottom: 16px;
+  position: relative;
 }
 
 .profile__form-field:last-child {
@@ -58,6 +58,21 @@
   line-height: 13px;
 }
 
+.profile__placeholder-error {
+  height: 20px;
+  font-size: 12px;
+  color: red;
+  opacity: 0;
+  position: absolute;
+  top: 34px;
+  left: 0;
+  transition: 0.3s;
+}
+
+.profile__placeholder-error_active {
+  opacity: 1;
+}
+
 .profile__form-text {
   color: white;
   font-weight: 500;
@@ -68,6 +83,7 @@
 }
 
 .profile__edit-button {
+  margin-top: 220px;
   background-color: transparent;
   border: none;
   font-weight: 400;
@@ -77,6 +93,12 @@
   opacity: 1;
   transition: opacity 0.4s ease;
   cursor: pointer;
+}
+
+.profile__edit-button_inactive {
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.2;
 }
 
 .profile__edit-button:hover {
@@ -93,7 +115,7 @@
   opacity: 1;
   transition: opacity 0.4s ease;
   cursor: pointer;
-  margin-top: 16px;
+  margin-top: 12px;
 }
 
 .profile__logout-button:hover {
@@ -105,7 +127,7 @@
   color: red;
   opacity: 0;
   position: absolute;
-  top: 34px;
+  top: 25px;
   left: 0;
   transition: 0.3s;
 }
